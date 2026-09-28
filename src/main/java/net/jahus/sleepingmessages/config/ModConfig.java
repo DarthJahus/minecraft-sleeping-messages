@@ -21,6 +21,9 @@ public final class ModConfig {
 	public String messagePart1Plural = "are";
 	public String joiner = "and";
 	public String msgOtherPlayers = "other players";
+	public String messageLeftBed = "has left the bed.";
+	/** Set to false to disable leave-bed announcements. */
+	public boolean enableLeftBedMessage = true;
 	public ChatFormatting playerColor = ChatFormatting.GOLD;
 	public ChatFormatting messageColor = ChatFormatting.WHITE;
 	/** Min ms between broadcasts (0 = every sleep event). */
@@ -49,6 +52,10 @@ public final class ModConfig {
 			cfg.messagePart1Plural = map.getOrDefault("message_part_1_plural", cfg.messagePart1Plural);
 			cfg.joiner = map.getOrDefault("joiner", cfg.joiner);
 			cfg.msgOtherPlayers = map.getOrDefault("msg_other_players", cfg.msgOtherPlayers);
+			cfg.messageLeftBed = map.getOrDefault("message_left_bed", cfg.messageLeftBed);
+			if (map.containsKey("enable_left_bed_message")) {
+				cfg.enableLeftBedMessage = Boolean.parseBoolean(map.get("enable_left_bed_message"));
+			}
 			cfg.playerColor = parseColor(map.get("player_color"), cfg.playerColor);
 			cfg.messageColor = parseColor(map.get("message_color"), cfg.messageColor);
 			if (map.containsKey("cooldown_ms")) {
@@ -75,6 +82,8 @@ public final class ModConfig {
 			message_part_1_plural=are
 			joiner=and
 			msg_other_players=other players
+			message_left_bed=has left the bed.
+			enable_left_bed_message=true
 			player_color=gold
 			message_color=white
 			cooldown_ms=0

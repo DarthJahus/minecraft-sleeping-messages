@@ -15,9 +15,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ServerPlayer.class)
 public class ServerPlayerMixin {
-	/**
-	 * 26.3: startSleepInBed(AbstractBedBlock, BlockState, BedRule, BlockPos)
-	 */
 	@Inject(method = "startSleepInBed", at = @At("RETURN"))
 	private void sleepingMessages$onSleep(
 			AbstractBedBlock bedBlock,
@@ -27,7 +24,7 @@ public class ServerPlayerMixin {
 			CallbackInfoReturnable<Either<BedSleepingProblem, ?>> cir) {
 		Either<BedSleepingProblem, ?> result = cir.getReturnValue();
 		if (result == null || result.left().isPresent()) {
-			return; // failed or cancelled
+			return;
 		}
 		SleepAnnounce.onPlayerStartedSleeping((ServerPlayer) (Object) this);
 	}

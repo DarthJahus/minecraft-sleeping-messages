@@ -18,6 +18,21 @@ public final class SleepAnnounce {
 
 	private SleepAnnounce() {}
 
+	
+	public static void onPlayerLeftBed(ServerPlayer player) {
+		ModConfig cfg = SleepingMessages.CONFIG;
+		if (cfg == null || !cfg.enableLeftBedMessage) return;
+
+		MinecraftServer server = player.level().getServer();
+		if (server == null) return;
+
+		MutableComponent message = Component.literal("")
+			.append(playerName(cfg, player))
+			.append(colored(cfg, " " + cfg.messageLeftBed));
+
+		server.getPlayerList().broadcastSystemMessage(message, false);
+	}
+
 	public static void onPlayerStartedSleeping(ServerPlayer sleeper) {
 		ModConfig cfg = SleepingMessages.CONFIG;
 		if (cfg == null) return;

@@ -2,7 +2,10 @@
   "required": true,
   "package": "net.jahus.sleepingmessages.mixin",
   "compatibilityLevel": "JAVA_21",
-  "mixins": ["ServerPlayerMixin"],
+  "mixins": [
+    "ServerPlayerMixin",
+    "LivingEntityMixin"
+  ],
   "injectors": {
     "defaultRequire": 1
   }
