@@ -13,6 +13,12 @@ Jahus_ and 3 other heroes are sleeping. Sleep too!
 
 With 4 or more sleeping players, only the first one is named; the others are counted.
 
+When the player is alone on the server, a different message can be shown (nothing by default, see `message_sleeping_alone`):
+
+```text
+Jahus_ is sleeping and feels lonely ( ˘︹˘ )
+```
+
 Player names are colored and hoverable (the tooltip shows the player's profile name).
 
 When a player leaves the bed during the night:
@@ -21,7 +27,7 @@ When a player leaves the bed during the night:
 Jahus_ is no longer sleeping!
 ```
 
-The leave message is not sent when players wake up in the morning.
+The leave message is not sent when players wake up in the morning, nor when the player is alone on the server.
 
 ## Config
 
@@ -35,6 +41,7 @@ message_part_2=Sleep too!
 message_part_1_plural=are sleeping.
 joiner=and
 msg_other_players=other heroes
+message_sleeping_alone=is sleeping and feels lonely ( ˘︹˘ )
 player_color=gold
 message_color=gray
 cooldown_ms=0
@@ -49,6 +56,7 @@ message_left_bed=is no longer sleeping!
 | `message_part_2` | `sleeping...` | End of the sleeping message |
 | `joiner` | `and` | Word joining the last name (or the count) |
 | `msg_other_players` | `other players` | Label after the count for 4+ players |
+| `message_sleeping_alone` | *(empty)* | Text after the player name when alone on the server. Empty = no message |
 | `message_left_bed` | `has left the bed.` | Text after the player name in the leave-bed message |
 | `enable_left_bed_message` | `true` | Set to `false` to disable leave-bed messages |
 | `player_color` | `gold` | Color of player names (Minecraft color name) |
@@ -62,4 +70,5 @@ Message layouts:
 2 players:  [p1] [joiner] [p2] [message_part_1_plural] [message_part_2]
 3 players:  [p1], [p2] [joiner] [p3] [message_part_1_plural] [message_part_2]
 4+ players: [p1] [joiner] <N> [msg_other_players] [message_part_1_plural] [message_part_2]
+Alone:      [p1] [message_sleeping_alone]  (nothing if empty)
 ```

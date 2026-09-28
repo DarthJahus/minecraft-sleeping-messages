@@ -26,6 +26,9 @@ public final class SleepAnnounce {
 		MinecraftServer server = player.level().getServer();
 		if (server == null) return;
 
+		// Alone on the server: a leave-bed message makes no sense
+		if (server.getPlayerList().getPlayers().size() <= 1) return;
+
 		MutableComponent message = Component.literal("")
 			.append(playerName(cfg, player))
 			.append(colored(cfg, " " + cfg.messageLeftBed));
@@ -39,6 +42,16 @@ public final class SleepAnnounce {
 
 		MinecraftServer server = sleeper.level().getServer();
 		if (server == null) return;
+
+		// Alone on the server: "[player] [message_sleeping_alone]", or nothing if empty
+		if (server.getPlayerList().getPlayers().size() <= 1) {
+			if (cfg.messageSleepingAlone.isEmpty()) return;
+			MutableComponent alone = Component.literal("")
+				.append(playerName(cfg, sleeper))
+				.append(colored(cfg, " " + cfg.messageSleepingAlone));
+			server.getPlayerList().broadcastSystemMessage(alone, false);
+			return;
+		}
 
 		long now = System.currentTimeMillis();
 		if (cfg.cooldownMs > 0 && now - lastBroadcastMs < cfg.cooldownMs) {
