@@ -23,6 +23,8 @@ public final class ModConfig {
 	public String msgOtherPlayers = "other players";
 	/** Shown after the player name when alone on the server. Empty = no message. */
 	public String messageSleepingAlone = "";
+	/** Replaces "[message_part_1_plural] [message_part_2]" when every connected player is in bed. Empty = standard message. */
+	public String allPlayersSleepMessage = "";
 	public String messageLeftBed = "has left the bed.";
 	/** Set to false to disable leave-bed announcements. */
 	public boolean enableLeftBedMessage = true;
@@ -55,6 +57,7 @@ public final class ModConfig {
 			cfg.joiner = map.getOrDefault("joiner", cfg.joiner);
 			cfg.msgOtherPlayers = map.getOrDefault("msg_other_players", cfg.msgOtherPlayers);
 			cfg.messageSleepingAlone = map.getOrDefault("message_sleeping_alone", cfg.messageSleepingAlone);
+			cfg.allPlayersSleepMessage = map.getOrDefault("all_players_sleep_message", cfg.allPlayersSleepMessage);
 			cfg.messageLeftBed = map.getOrDefault("message_left_bed", cfg.messageLeftBed);
 			if (map.containsKey("enable_left_bed_message")) {
 				cfg.enableLeftBedMessage = Boolean.parseBoolean(map.get("enable_left_bed_message"));
@@ -80,6 +83,8 @@ public final class ModConfig {
 			# Three:     [p1], [p2] [joiner] [p3] [message_part_1_plural] [message_part_2]
 			# Four+:     [p1] [joiner] <N> [msg_other_players] [message_part_1_plural] [message_part_2]
 			# Alone:     [p1] [message_sleeping_alone]  (empty = no message; no leave-bed message either)
+			# Everyone:  same names as above, then [all_players_sleep_message] instead of [message_part_1_plural] [message_part_2]
+			#            (everyone connected is in bed, 2+ players; empty = standard message)
 
 			message_part_1_singular=is
 			message_part_2=sleeping...
@@ -87,6 +92,7 @@ public final class ModConfig {
 			joiner=and
 			msg_other_players=other players
 			message_sleeping_alone=
+			all_players_sleep_message=
 			message_left_bed=has left the bed.
 			enable_left_bed_message=true
 			player_color=gold

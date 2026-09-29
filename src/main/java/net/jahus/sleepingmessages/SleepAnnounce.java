@@ -71,11 +71,13 @@ public final class SleepAnnounce {
 		if (sleeping.isEmpty()) return;
 
 		lastBroadcastMs = now;
-		MutableComponent message = buildMessage(cfg, sleeping);
+		// Everyone connected is in bed (only reachable with 2+ players: solo is handled above)
+		boolean everyone = sleeping.size() >= server.getPlayerList().getPlayers().size();
+		MutableComponent message = buildMessage(cfg, sleeping, everyone);
 		server.getPlayerList().broadcastSystemMessage(message, false);
 	}
 
-	static MutableComponent buildMessage(ModConfig cfg, List<ServerPlayer> sleeping) {
+	static MutableComponent buildMessage(ModConfig cfg, List<ServerPlayer> sleeping, boolean everyone) {
 		int n = sleeping.size();
 		MutableComponent msg = Component.literal("");
 
@@ -89,7 +91,7 @@ public final class SleepAnnounce {
 			msg.append(playerName(cfg, sleeping.get(0)));
 			msg.append(colored(cfg, " " + cfg.joiner + " "));
 			msg.append(playerName(cfg, sleeping.get(1)));
-			msg.append(colored(cfg, " " + cfg.messagePart1Plural + " " + cfg.messagePart2));
+			msg.append(colored(cfg, " " + pluralTail(cfg, everyone)));
 			return msg;
 		}
 
@@ -99,7 +101,7 @@ public final class SleepAnnounce {
 			msg.append(playerName(cfg, sleeping.get(1)));
 			msg.append(colored(cfg, " " + cfg.joiner + " "));
 			msg.append(playerName(cfg, sleeping.get(2)));
-			msg.append(colored(cfg, " " + cfg.messagePart1Plural + " " + cfg.messagePart2));
+			msg.append(colored(cfg, " " + pluralTail(cfg, everyone)));
 			return msg;
 		}
 
@@ -107,8 +109,19 @@ public final class SleepAnnounce {
 		int others = n - 1;
 		msg.append(playerName(cfg, sleeping.get(0)));
 		msg.append(colored(cfg, " " + cfg.joiner + " " + others + " " + cfg.msgOtherPlayers));
-		msg.append(colored(cfg, " " + cfg.messagePart1Plural + " " + cfg.messagePart2));
+		msg.append(colored(cfg, " " + pluralTail(cfg, everyone)));
 		return msg;
+	}
+
+	/**
+	 * Text after the names for 2+ players: "[message_part_1_plural] [message_part_2]",
+	 * or "[all_players_sleep_message]" when everyone is in bed and that message is set.
+	 */
+	private static String pluralTail(ModConfig cfg, boolean everyone) {
+		if (everyone && !cfg.allPlayersSleepMessage.isEmpty()) {
+			return cfg.allPlayersSleepMessage;
+		}
+		return cfg.messagePart1Plural + " " + cfg.messagePart2;
 	}
 
 	private static MutableComponent playerName(ModConfig cfg, ServerPlayer player) {
