@@ -49,7 +49,7 @@ public final class SleepAnnounce {
 			MutableComponent alone = Component.literal("")
 				.append(playerName(cfg, sleeper))
 				.append(colored(cfg, " " + cfg.messageSleepingAlone));
-			server.getPlayerList().broadcastSystemMessage(alone, false);
+			server.getPlayerList().broadcastSystemMessage(alone, true);
 			return;
 		}
 
