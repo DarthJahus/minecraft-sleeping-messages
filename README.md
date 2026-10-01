@@ -1,6 +1,9 @@
 # Sleeping Messages
 Announces in chat who is sleeping, with different wording for 1, 2, 3 and many players, and who leaves the bed during the night.
 
+[![Modrinth](https://img.shields.io/modrinth/dt/jahus-sleeping-messages?logo=modrinth&label=Modrinth)](https://modrinth.com/mod/jahus-sleeping-messages)
+[![CurseForge](https://img.shields.io/curseforge/dt/1720122?logo=curseforge&label=CurseForge)](https://www.curseforge.com/projects/1720122)
+
 ## Examples
 When a player gets into a bed:
 
