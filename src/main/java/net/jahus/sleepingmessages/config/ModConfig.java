@@ -1,9 +1,9 @@
 package net.jahus.sleepingmessages.config;
 
-import net.fabricmc.loader.api.FabricLoader;
 import net.jahus.sleepingmessages.SleepingMessages;
 import net.minecraft.ChatFormatting;
 import net.minecraft.world.level.Level;
+import net.neoforged.fml.loading.FMLPaths;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -15,6 +15,7 @@ import java.util.Map;
 
 /**
  * Simple key=value config in config/sleeping-messages.properties
+ * (same filename as Fabric for shared configs).
  */
 public final class ModConfig {
 	public String messagePart1Singular = "is";
@@ -45,7 +46,7 @@ public final class ModConfig {
 
 	private ModConfig() {}
 
-	/** True if current dayTime is in the configured dawn suppress window. */
+	/** True if current default clock time is in the configured dawn suppress window. */
 	public boolean isAroundDawn(Level level) {
 		if (!suppressLeftBedNearDawn) {
 			return false;
@@ -74,7 +75,7 @@ public final class ModConfig {
 	}
 
 	public static ModConfig load() {
-		Path path = FabricLoader.getInstance().getConfigDir().resolve("sleeping-messages.properties");
+		Path path = FMLPaths.CONFIGDIR.get().resolve("sleeping-messages.properties");
 		ModConfig cfg = new ModConfig();
 		if (!Files.exists(path)) {
 			cfg.save(path);

@@ -1,17 +1,18 @@
 package net.jahus.sleepingmessages;
 
-import net.fabricmc.api.ModInitializer;
+import com.mojang.logging.LogUtils;
 import net.jahus.sleepingmessages.config.ModConfig;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.common.Mod;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-public class SleepingMessages implements ModInitializer {
-	public static final String MOD_ID = "sleeping-messages";
-	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+@Mod(SleepingMessages.MOD_ID)
+public class SleepingMessages {
+	public static final String MOD_ID = "sleeping_messages";
+	public static final Logger LOGGER = LogUtils.getLogger();
 	public static ModConfig CONFIG;
 
-	@Override
-	public void onInitialize() {
+	public SleepingMessages(IEventBus modEventBus) {
 		CONFIG = ModConfig.load();
 		LOGGER.info("Sleeping Messages loaded");
 	}

@@ -1,34 +1,65 @@
 plugins {
-	id 'net.fabricmc.fabric-loom' version "${loom_version}"
+    id 'java-library'
+    id 'maven-publish'
+    id 'net.neoforged.moddev' version '2.0.148'
+    id 'idea'
 }
 
-version = project.mod_version
-group = project.maven_group
+version = mod_version
+group = mod_group
 
 base {
-	archivesName = project.archives_base_name
+    archivesName = 'sleeping-messages'
 }
 
-dependencies {
-	minecraft "com.mojang:minecraft:${project.minecraft_version}"
-	implementation "net.fabricmc:fabric-loader:${project.loader_version}"
-	// no fabric-api
+java.toolchain.languageVersion = JavaLanguageVersion.of(25)
+
+neoForge {
+    version = project.neo_version
+
+    parchment {
+        // optional
+    }
+
+    runs {
+        client {
+            client()
+        }
+        server {
+            server()
+            programArgument '--nogui'
+        }
+    }
+
+    mods {
+        "${mod_id}" {
+            sourceSet sourceSets.main
+        }
+    }
 }
 
-processResources {
-	def version = project.version
-	inputs.property "version", version
-	filesMatching("fabric.mod.json") {
-		expand "version": version
-	}
+// Expand tokens in neoforge.mods.toml under resources and templates
+tasks.named('processResources', ProcessResources).configure {
+    var replaceProperties = [
+            mod_id     : mod_id,
+            mod_name   : mod_name,
+            mod_version: mod_version,
+            mod_authors: mod_authors,
+            mod_license: mod_license,
+    ]
+    inputs.properties replaceProperties
+    filesMatching(['META-INF/neoforge.mods.toml']) {
+        expand replaceProperties
+    }
 }
 
 tasks.withType(JavaCompile).configureEach {
-	it.options.release = 25
+    options.encoding = 'UTF-8'
 }
 
-java {
-	withSourcesJar()
-	sourceCompatibility = JavaVersion.VERSION_25
-	targetCompatibility = JavaVersion.VERSION_25
+idea {
+    module {
+        downloadSources = true
+        downloadJavadoc = true
+    }
 }
