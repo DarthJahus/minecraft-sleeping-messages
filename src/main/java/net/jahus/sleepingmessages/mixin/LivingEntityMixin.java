@@ -1,6 +1,8 @@
 package net.jahus.sleepingmessages.mixin;
 
 import net.jahus.sleepingmessages.SleepAnnounce;
+import net.jahus.sleepingmessages.SleepingMessages;
+import net.jahus.sleepingmessages.config.ModConfig;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import org.spongepowered.asm.mixin.Mixin;
@@ -10,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /**
  * stopSleeping lives on LivingEntity (not ServerPlayer).
- * Only handle server players; skip morning auto-wake (daytime).
+ * Only handle server players; skip morning auto-wake (daytime / dawn window).
  */
 @Mixin(LivingEntity.class)
 public class LivingEntityMixin {
@@ -25,6 +27,10 @@ public class LivingEntityMixin {
 		}
 		// Morning / day skip: don't announce (everyone wakes at once)
 		if (!player.level().isDarkOutside()) {
+			return;
+		}
+		ModConfig cfg = SleepingMessages.CONFIG;
+		if (cfg != null && cfg.isAroundDawn(player.level())) {
 			return;
 		}
 		SleepAnnounce.onPlayerLeftBed(player);

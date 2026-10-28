@@ -36,7 +36,14 @@ When a player leaves the bed during the night:
 Jahus_ is no longer sleeping!
 ```
 
-The leave message is not sent when players wake up in the morning, nor when the player is alone on the server.
+The leave message is **not** sent when:
+
+- the player is alone on the server;
+- it is daytime (`isDarkOutside()` is false);
+- leave-bed messages are disabled (`enable_left_bed_message=false`);
+- dawn suppression is on and the world time is inside the dawn window (default: after a night skip / morning wake-up).
+
+Leaving the bed late at night (before dawn) still announces as usual.
 
 ## Config
 
@@ -57,6 +64,9 @@ message_color=gray
 cooldown_ms=0
 enable_left_bed_message=true
 message_left_bed=is no longer sleeping!
+suppress_left_bed_near_dawn=true
+dawn_window_start=23000
+dawn_window_end=1500
 ```
 
 | Key | Default | Description |
@@ -70,6 +80,9 @@ message_left_bed=is no longer sleeping!
 | `all_players_sleep_message` | *(empty)* | Text after the names, replacing `message_part_1_plural` + `message_part_2`, when every connected player is in bed (2+ players). Empty = standard message |
 | `message_left_bed` | `has left the bed.` | Text after the player name in the leave-bed message |
 | `enable_left_bed_message` | `true` | Set to `false` to disable leave-bed messages |
+| `suppress_left_bed_near_dawn` | `true` | Suppress leave-bed messages when world `dayTime` is inside the dawn window (covers post-sleep morning wake-up) |
+| `dawn_window_start` | `23000` | Start of the dawn window (0–23999). Inclusive. May be greater than `dawn_window_end` (wraps past midnight) |
+| `dawn_window_end` | `1500` | End of the dawn window (0–23999). Exclusive. |
 | `player_color` | `gold` | Color of player names (Minecraft color name) |
 | `message_color` | `white` | Color of the rest of the message (Minecraft color name) |
 | `cooldown_ms` | `0` | Minimum delay in ms between two sleeping announcements (`0` = every time). Does not apply to leave-bed messages |
