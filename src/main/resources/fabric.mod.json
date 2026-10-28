@@ -5,7 +5,7 @@
   "name": "Sleeping Messages",
   "description": "Announce who is sleeping. Configurable messages for 1, 2, 3, or many players. Server-side, no Fabric API.",
   "authors": ["Jahus"],
-  "license": "MIT",
+  "license": "Apache-2.0",
   "environment": "server",
   "entrypoints": {
     "main": ["net.jahus.sleepingmessages.SleepingMessages"]
